@@ -1,0 +1,28 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}
+    Products
+{% endblock %}
+
+{% block body %}
+    <h1>Список продктов:</h1>
+    {% if products %}
+        <div>
+        {% for product in products %}
+            <div>
+                <p><a href="{% url 'shopapp:product_details' pk=product.pk %}"> Название: {{ product.name }}</a></p>
+                <p>Цена: {{ product.price }}</p>
+                <p>Скидка: {% firstof product.discount 'нет скидки'%} </p>
+
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <h3>Продуктов нет</h3>
+    {% endif %}
+    {% if perms.shopapp.add_product %}
+        <div>
+            <a href="{% url 'shopapp:product_create' %}">Create new product</a>
+        </div>
+    {% endif %}
+{% endblock %}
